@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let hot;
 
     const updateOutput = () => {
-        outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
+        if (hot) { // Ensure hot is initialized before using it
+            outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
+        }
     };
 
     hot = new Handsontable(hotElement, {
@@ -52,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
             {type: 'dropdown', source: ['item', 'weapon', 'armor']},
             {type: 'numeric'},
             {type: 'numeric'},
-            {type: 'text'},
-            {type: 'text'}
+            {type: 'date', dateFormat: 'YYYY-MM-DD'}, // Assuming dates are in 'YYYY-MM-DD' format
+            {type: 'date', dateFormat: 'YYYY-MM-DD'}
         ],
         contextMenu: true,
         stretchH: 'all',
@@ -62,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
         maxRows: Infinity,
         afterChange: updateOutput,
         afterRemoveRow: updateOutput,
-        afterCreateRow: updateOutput
+        afterCreateRow: updateOutput,
+        licenseKey: 'non-commercial-and-evaluation' // Add this line
     });
 
     document.getElementById('addRow').addEventListener('click', () => {
@@ -80,5 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateOutput(); // Initial update
 });
 </script>
+
 </body>
 </html>
