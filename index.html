@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let data = [['', '', '', '', '']]; // Initial data
 
     const updateOutput = () => {
-        outputElement.textContent = JSON.stringify(data, null, 2);
+        outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
     };
 
     const hot = new Handsontable(hotElement, {
@@ -60,7 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
         width: '100%',
         autoWrapRow: true,
         maxRows: Infinity,
-        licenseKey: 'non-commercial-and-evaluation'
+        licenseKey: 'non-commercial-and-evaluation',
+        afterChange: (change, source) => {
+            if (source !== 'loadData') { // This checks if the change was not due to loading data
+                updateOutput();
+            }
+        },
+        afterRemoveRow: (index, amount) => {
+            updateOutput();
+        },
+        afterCreateRow: (index, amount) => {
+            updateOutput();
+        }
     });
 
     document.getElementById('addRow').addEventListener('click', () => {
