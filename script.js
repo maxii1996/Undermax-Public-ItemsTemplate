@@ -1,32 +1,31 @@
-document.getElementById('addItem').addEventListener('click', () => {
-    const type = document.getElementById('type').value;
-    const id = document.getElementById('id').value;
-    const price = document.getElementById('price').value;
-    const validFrom = document.getElementById('validFrom').value;
-    const validTo = document.getElementById('validTo').value;
+document.addEventListener('DOMContentLoaded', () => {
+    var data = [
+        // Datos de ejemplo, puedes dejarlo vacío o con algunas filas para guiar al usuario
+    ];
 
-    const item = {
-        type,
-        id: Number(id),
-        price: Number(price),
-        'valid-from': validFrom,
-        'valid-to': validTo
-    };
+    var container = document.getElementById('hot');
+    var hot = new Handsontable(container, {
+        data: data,
+        rowHeaders: true,
+        colHeaders: ['Tipo', 'ID', 'Precio', 'Válido Desde (YYYY-MM-DDTHH:MM)', 'Válido Hasta (YYYY-MM-DDTHH:MM)'],
+        columns: [
+          {type: 'dropdown', source: ['item', 'weapon', 'armor']},
+          {type: 'numeric'},
+          {type: 'numeric'},
+          {type: 'date', dateFormat: 'YYYY-MM-DDTHH:MM', correctFormat: true},
+          {type: 'date', dateFormat: 'YYYY-MM-DDTHH:MM', correctFormat: true}
+        ],
+        contextMenu: true,
+        filters: true,
+        dropdownMenu: true,
+        stretchH: 'all',
+        manualRowResize: true,
+        manualColumnResize: true,
+        licenseKey: 'non-commercial-and-evaluation' // Change this license key if you have one
+    });
 
-    addItemToList(item);
+    document.getElementById('generate').addEventListener('click', () => {
+        const output = document.getElementById('output');
+        output.textContent = JSON.stringify(hot.getData(), null, 2);
+    });
 });
-
-document.getElementById('generate').addEventListener('click', generateRawText);
-
-let items = [];
-
-function addItemToList(item) {
-    items.push(item);
-    console.log(items);
-    alert('Ítem añadido a la lista');
-}
-
-function generateRawText() {
-    const output = document.getElementById('output');
-    output.textContent = JSON.stringify(items, null, 2);
-}
