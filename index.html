@@ -68,9 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
         licenseKey: 'non-commercial-and-evaluation' // Add this line
     });
 
-    document.getElementById('addRow').addEventListener('click', () => {
-        hot.alter('insert_row', hot.countRows());
-    });
+ document.getElementById('addRow').addEventListener('click', () => {
+    // Suponiendo que 'hot' es tu instancia de Handsontable
+    const index = hot.countRows(); // Obtiene el índice donde se insertará la nueva fila (al final)
+    hot.alter('insert_row', index); // Inserta una nueva fila al final de la tabla
+});
+
 
     document.getElementById('copy').addEventListener('click', () => {
         navigator.clipboard.writeText(outputElement.textContent).then(() => {
