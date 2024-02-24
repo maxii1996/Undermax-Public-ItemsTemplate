@@ -39,7 +39,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hotElement = document.getElementById('hot');
     const outputElement = document.getElementById('output');
-    let data = [['', '', '', '', '']]; // Initial data
+    let data = [['', '', '', '', '', '', '']]; // Updated initial data structure
 
     const updateOutput = () => {
         outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
@@ -47,13 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hot = new Handsontable(hotElement, {
         data: data,
-        colHeaders: ['Type', 'ID', 'Price', 'Valid From', 'Valid Until'],
+        colHeaders: ['Type', 'ID', 'Price', 'Valid From', 'Valid Until', 'Price Type', 'Variable ID'],
         columns: [
             {type: 'dropdown', source: ['item', 'weapon', 'armor']},
             {type: 'numeric'},
             {type: 'numeric'},
             {type: 'date', dateFormat: 'YYYY-MM-DD'},
-            {type: 'date', dateFormat: 'YYYY-MM-DD'}
+            {type: 'date', dateFormat: 'YYYY-MM-DD'},
+            {type: 'dropdown', source: ['Fixed', 'Variable']}, // New dropdown for price type
+            {type: 'numeric'}, // Assuming variable ID is numeric
         ],
         contextMenu: true,
         stretchH: 'all',
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('addRow').addEventListener('click', () => {
-        data.push(['', '', '', '', '']); // Add a new row at the end
+        data.push(['', '', '', '', '', '', '']); // Updated to match new structure
         hot.loadData(data); // Reload the table's data
         updateOutput(); // Update the output
     });
