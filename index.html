@@ -39,22 +39,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hotElement = document.getElementById('hot');
     const outputElement = document.getElementById('output');
-    let hot;
+    let data = [['', '', '', '', '']]; // Initial data
 
     const updateOutput = () => {
-        if (hot) { // Ensure hot is initialized before using it
-            outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
-        }
+        outputElement.textContent = JSON.stringify(data, null, 2);
     };
 
-    hot = new Handsontable(hotElement, {
-        data: [['', '', '', '', '']],
+    const hot = new Handsontable(hotElement, {
+        data: data,
         colHeaders: ['Type', 'ID', 'Price', 'Valid From', 'Valid Until'],
         columns: [
             {type: 'dropdown', source: ['item', 'weapon', 'armor']},
             {type: 'numeric'},
             {type: 'numeric'},
-            {type: 'date', dateFormat: 'YYYY-MM-DD'}, // Assuming dates are in 'YYYY-MM-DD' format
+            {type: 'date', dateFormat: 'YYYY-MM-DD'},
             {type: 'date', dateFormat: 'YYYY-MM-DD'}
         ],
         contextMenu: true,
@@ -62,14 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
         width: '100%',
         autoWrapRow: true,
         maxRows: Infinity,
-        afterChange: updateOutput,
-        afterRemoveRow: updateOutput,
-        afterCreateRow: updateOutput,
-        licenseKey: 'non-commercial-and-evaluation' // Add this line if using for non-commercial and evaluation purposes
+        licenseKey: 'non-commercial-and-evaluation'
     });
 
     document.getElementById('addRow').addEventListener('click', () => {
-        hot.alter('insert_row', hot.countRows()); // Intenta insertar una fila al final
+        data.push(['', '', '', '', '']); // Add a new row at the end
+        hot.loadData(data); // Reload the table's data
+        updateOutput(); // Update the output
     });
 
     document.getElementById('copy').addEventListener('click', () => {
@@ -83,6 +80,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateOutput(); // Initial update
 });
 </script>
-
 </body>
 </html>
