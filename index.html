@@ -4,41 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Listado de Ítems para la Tienda Online</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
 </head>
 <body>
     <div class="container">
         <h1>Generador de Ítems para Tienda Online</h1>
-        <form id="itemForm">
-            <div class="form-group">
-                <label for="type">Tipo:</label>
-                <select id="type" required>
-                    <option value="item">Ítem</option>
-                    <option value="weapon">Arma</option>
-                    <option value="armor">Armadura</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="id">ID del Ítem:</label>
-                <input type="number" id="id" required>
-            </div>
-            <div class="form-group">
-                <label for="price">Precio:</label>
-                <input type="number" id="price" required>
-            </div>
-            <div class="form-group">
-                <label for="validFrom">Válido desde (YYYY-MM-DDTHH:MM):</label>
-                <input type="datetime-local" id="validFrom" required>
-            </div>
-            <div class="form-group">
-                <label for="validTo">Válido hasta (YYYY-MM-DDTHH:MM):</label>
-                <input type="datetime-local" id="validTo" required>
-            </div>
-            <button type="button" id="addItem">Añadir Ítem</button>
-            <button type="button" id="generate">Generar Texto RAW</button>
-        </form>
+        <div id="hot"></div>
+        <button id="generate">Generar Texto RAW</button>
         <div id="output"></div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
