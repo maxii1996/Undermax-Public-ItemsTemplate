@@ -39,7 +39,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hotElement = document.getElementById('hot');
     const outputElement = document.getElementById('output');
-    let data = [['', '', '', '', '', '', '']]; // Updated initial data structure
+    let data = [['', '', '', '', '', '']];
 
     const updateOutput = () => {
         outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
@@ -47,15 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hot = new Handsontable(hotElement, {
         data: data,
-        colHeaders: ['Type', 'ID', 'Price', 'Valid From', 'Valid Until', 'Price Type', 'Variable ID'],
+        colHeaders: ['Type', 'ID', 'Price Type', 'Price/Variable ID', 'Valid From', 'Valid Until'],
         columns: [
             {type: 'dropdown', source: ['item', 'weapon', 'armor']},
             {type: 'numeric'},
+            {type: 'dropdown', source: ['Fixed', 'Variable']}, 
             {type: 'numeric'},
             {type: 'date', dateFormat: 'YYYY-MM-DD'},
-            {type: 'date', dateFormat: 'YYYY-MM-DD'},
-            {type: 'dropdown', source: ['Fixed', 'Variable']}, // New dropdown for price type
-            {type: 'numeric'}, // Assuming variable ID is numeric
+            {type: 'date', dateFormat: 'YYYY-MM-DD'}
         ],
         contextMenu: true,
         stretchH: 'all',
@@ -64,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         maxRows: Infinity,
         licenseKey: 'non-commercial-and-evaluation',
         afterChange: (change, source) => {
-            if (source !== 'loadData') { // This checks if the change was not due to loading data
+            if (source !== 'loadData') {
                 updateOutput();
             }
         },
@@ -77,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('addRow').addEventListener('click', () => {
-        data.push(['', '', '', '', '', '', '']); // Updated to match new structure
-        hot.loadData(data); // Reload the table's data
-        updateOutput(); // Update the output
+        data.push(['', '', '', '', '', '']); 
+        hot.loadData(data);
+        updateOutput();
     });
 
     document.getElementById('copy').addEventListener('click', () => {
@@ -90,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    updateOutput(); // Initial update
+    updateOutput();
 });
 </script>
 </body>
