@@ -18,7 +18,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        #output {
+        #output, #encodedUrl {
             white-space: pre-wrap;
             background-color: #e9ecef;
             border-radius: 5px;
@@ -30,7 +30,13 @@
 <body>
 <div class="container">
     <h2>Online Shop Item List Generator</h2>
-    <div id="hot"></div>
+    <label for="rawUrl">RAW URL Input:</label>
+    <input type="text" id="rawUrl" class="form-control">
+    <button id="encodeUrl" class="btn btn-primary mt-3">Encrypt URL</button>
+    <div id="encodedUrl" class="mt-3">Encrypted Output: </div>
+    <button id="copyEncoded" class="btn btn-secondary mt-3">Copy Encrypted URL</button>
+    
+    <div id="hot" class="mt-5"></div>
     <button id="addRow" class="btn btn-success mt-3">Add New Row</button>
     <button id="copy" class="btn btn-secondary mt-3">Copy to Clipboard</button>
     <pre id="output"></pre>
@@ -40,6 +46,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const hotElement = document.getElementById('hot');
     const outputElement = document.getElementById('output');
     let data = [['', '', '', '', '', '']];
+    
+    const encodeBase64 = (str) => btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+    
+    document.getElementById('encodeUrl').addEventListener('click', () => {
+        const rawUrl = document.getElementById('rawUrl').value;
+        const encodedUrl = encodeBase64(rawUrl);
+        document.getElementById('encodedUrl').textContent = 'Encrypted Output: ' + encodedUrl;
+    });
+
+    document.getElementById('copyEncoded').addEventListener('click', () => {
+        const encodedUrlText = document.getElementById('encodedUrl').textContent.replace('Encrypted Output: ', '');
+        navigator.clipboard.writeText(encodedUrlText).then(() => {
+            alert('Encrypted URL copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    });
 
     const updateOutput = () => {
         outputElement.textContent = JSON.stringify(hot.getData(), null, 2);
